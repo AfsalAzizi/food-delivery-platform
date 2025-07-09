@@ -26,5 +26,6 @@ CREATE TABLE IF NOT EXISTS addresses (
     latitude DECIMAL(10, 8),
     longitude DECIMAL(11, 8),
     is_default BOOLEAN DEFAULT false,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
