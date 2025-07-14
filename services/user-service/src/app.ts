@@ -2,11 +2,22 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
+import { timeStamp } from "console";
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/health", (_req: Request, res: Response) => {
+  res
+    .status(200)
+    .json({
+      status: "healthy",
+      service: "user-service",
+      timeStamp: new Date().toISOString(),
+    });
+});
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("👋 User Service is running with TypeScript");
