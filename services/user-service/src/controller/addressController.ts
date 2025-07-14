@@ -23,7 +23,25 @@ export const addAddress = async (req: AuthRequest, res: Response) => {
     !postal_code ||
     !country
   ) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  if (latitude !== undefined && latitude !== null) {
+    const lat = parseFloat(latitude);
+    if (isNaN(lat) || lat < -90 || lat > 90) {
+      return res.status(400).json({
+        error: "Invalid coordinates",
+      });
+    }
+  }
+
+  if (longitude !== undefined && longitude !== null) {
+    const lng = parseFloat(longitude);
+    if (isNaN(lng) || lng < -180 || lng > 180) {
+      return res.status(400).json({
+        error: "Invalid coordinates",
+      });
+    }
   }
 
   try {
@@ -122,6 +140,24 @@ export const updateAddress = async (req: AuthRequest, res: Response) => {
 
   if (!userId || !addressId) {
     return res.status(400).json({ error: "Unauthorized or address not found" });
+  }
+
+  if (latitude !== undefined && latitude !== null) {
+    const lat = parseFloat(latitude);
+    if (isNaN(lat) || lat < -90 || lat > 90) {
+      return res.status(400).json({
+        error: "Invalid coordinates",
+      });
+    }
+  }
+
+  if (longitude !== undefined && longitude !== null) {
+    const lng = parseFloat(longitude);
+    if (isNaN(lng) || lng < -180 || lng > 180) {
+      return res.status(400).json({
+        error: "Invalid coordinates",
+      });
+    }
   }
 
   try {
