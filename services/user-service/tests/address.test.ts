@@ -234,7 +234,7 @@ describe("Address Routes", () => {
 
     it("should return 404 if address not found", async () => {
       const response = await request(app)
-        .get(`/user/addresses/99999999`)
+        .get(`/user/addresses/123e4567-e89b-12d3-a456-426614174000`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(404);
@@ -259,6 +259,8 @@ describe("Address Routes", () => {
         .set("Authorization", `Bearer ${authToken}`)
         .send(newAddress);
 
+      console.log(newAddressResponse.body);
+
       addressId = newAddressResponse.body.address.id;
 
       const response = await request(app)
@@ -273,7 +275,7 @@ describe("Address Routes", () => {
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(verifyResponse.status).toBe(404);
-      expect(verifyResponse.body.message).toBe("Address not found");
+      expect(verifyResponse.body.error).toBe("Address not found");
     });
 
     it("should reassign default when default address is deleted", async () => {
@@ -346,7 +348,7 @@ describe("Address Routes", () => {
 
     it("should return 404 for non-existent address", async () => {
       const response = await request(app)
-        .delete(`/user/addresses/9999999999999999999999999999999999999999`)
+        .delete(`/user/addresses/123e4567-e89b-12d3-a456-426614174000`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).toBe(404);

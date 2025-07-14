@@ -56,8 +56,8 @@ export const addAddress = async (req: AuthRequest, res: Response) => {
 
     const willBeDefault = isFirstAddress;
 
-    await pool.query(
-      "INSERT INTO addresses (user_id, label, street_address, city, state, postal_code, country, latitude, longitude, is_default) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+    const result = await pool.query(
+      "INSERT INTO addresses (user_id, label, street_address, city, state, postal_code, country, latitude, longitude, is_default) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
       [
         userId,
         label,
@@ -72,7 +72,10 @@ export const addAddress = async (req: AuthRequest, res: Response) => {
       ]
     );
 
-    res.status(201).json({ message: "Address added successfully" });
+    res.status(201).json({
+      message: "Address added successfully",
+      address: result.rows[0],
+    });
   } catch (error) {
     console.error("Error adding address:", error);
     res.status(500).json({ error: "Failed to add address" });
