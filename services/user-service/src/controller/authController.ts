@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { messagePublisher } from "../utils/messagePublisher";
 import pool from "../config/db";
 import bcypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -42,6 +43,15 @@ export const registerUser = async (req: Request, res: Response) => {
         expiresIn: "7d",
       }
     );
+
+    await messagePublisher.publishMessage("user.registered", {
+      userId: user.id,
+      email: user.email,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      phone: user.phone,
+      registeredAt: new Date().toISOString(),
+    });
 
     res.status(201).json({
       user,

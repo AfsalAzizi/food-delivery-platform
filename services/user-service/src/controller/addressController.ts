@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import pool from "../config/db";
 import { AuthRequest } from "../middleware/authMiddleware";
+import { messagePublisher } from "../utils/messagePublisher";
 
 export const addAddress = async (req: AuthRequest, res: Response) => {
   const userId = req.userId;
@@ -71,6 +72,14 @@ export const addAddress = async (req: AuthRequest, res: Response) => {
         willBeDefault,
       ]
     );
+
+    await messagePublisher.publishMessage("address.added", {
+      userId,
+      addressId: result.rows[0].id,
+      label: result.rows[0].label,
+      isDefault: result.rows[0].is_default,
+      isFirstAddress: willBeDefault,
+    });
 
     res.status(201).json({
       message: "Address added successfully",
