@@ -24,6 +24,14 @@ export const createRestaurant = async (req: Request, res: Response) => {
 
     const restaurant = new Restaurant({
       name,
+      description,
+      cuisine_type,
+      address,
+      contact,
+      operating_hours,
+      delivery_radius,
+      minimum_order,
+      delivery_fee,
     });
 
     await restaurant.save();

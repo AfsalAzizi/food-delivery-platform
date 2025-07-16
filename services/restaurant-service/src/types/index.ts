@@ -113,3 +113,20 @@ export interface RestaurantQuery {
 export type RestaurantRequest = Request & {
   query: RestaurantQuery;
 };
+
+export interface MenuItemQuery {
+  category?: string;
+  is_available?: boolean;
+  min_price?: number;
+  max_price?: number;
+  dietory_info?: string;
+
+  search?: string;
+
+  page?: string | number;
+  limit?: string | number;
+}
+
+export type MenuItemRequest = Request & {
+  query: MenuItemQuery;
+};
